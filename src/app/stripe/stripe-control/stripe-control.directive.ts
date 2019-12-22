@@ -39,7 +39,7 @@ export class StripeControl implements ControlValueAccessor, Validator {
    */
   registerOnChange(fn: (_:any) => void): void {
 
-    this.element.valueChange.subscribe( value => fn(this.element.element) );
+    this.element.valueChange.subscribe( value => fn(value.complete ? this.element.element : null) );
   }
 
   /** Registers a callback function is called by the forms API on initialization to update the form model on blur. */

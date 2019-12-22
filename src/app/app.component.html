@@ -1,0 +1,108 @@
+
+<section fxLayout="column" fxLayoutAlign="center center">
+
+  <p>Stripe Card Element w/ Angular Form API & Angular Material style</p>
+
+  <!-- Connects Stripe to the given account -->
+  <wm-stripe-connect [account]="account" #connect="StripeConnect">
+
+    <!-- Configures Stripe Elements with the given locale -->
+    <wm-stripe-elements [locale]="locale.value">
+
+      <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px" (ngSubmit)="pay(connect.stripe)" #form="ngForm">
+
+        <!-- MatFormField applied to a native input control -->
+        <mat-form-field>
+
+          <mat-label>Name</mat-label>
+
+          <input matInput [(ngModel)]="name" name="name" required #formName="ngModel">
+
+          <mat-error *ngIf="!formName.valid">Please provide your name for billing purposes</mat-error>
+          
+          <mat-hint>How do we call you</mat-hint>
+        
+        </mat-form-field>
+        
+        <!-- MatFormField applied to Stripe Card Element control -->
+        <mat-form-field>
+
+          <mat-label>Credit card</mat-label>
+
+          <wm-stripe-card matStripe hidePostalCode [(ngModel)]="card" name="card" required #formCard></wm-stripe-card>
+       
+          <mat-error *ngIf="formCard.error">{{ formCard.error.message }}</mat-error>
+
+          <mat-hint>Powered by Stripe</mat-hint>
+       
+        </mat-form-field>
+
+        <button mat-flat-button type="submit" color="primary" [disabled]="!(form.valid && formCard.complete)">
+          Pay Now
+        </button>
+
+        <mat-select #locale>
+          <mat-option value="">Auto</mat-option>
+          <mat-option value="en">English</mat-option>
+          <mat-option value="it">Italiano</mat-option>
+          <mat-option value="ru">Русский</mat-option>
+        </mat-select>
+
+        <mat-checkbox (change)="$event.checked ? form.control.disable() : form.control.enable()">Disabled</mat-checkbox>
+
+      </form>
+
+    </wm-stripe-elements>
+
+  </wm-stripe-connect>
+
+  <!--p>Stripe Elements</p>
+
+  <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px" (ngSubmit)="pay(card.element)">
+
+    
+    <wm-stripe-elements fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px" [locale]="locale.value">
+
+      <mat-form-field>
+
+        <mat-label>Credit card</mat-label>
+
+        <wm-stripe-card matStripe hidePostalCode [disabled]="disabled.checked" #card></wm-stripe-card>
+     
+        <mat-error *ngIf="card.error">{{ card.error.message }}</mat-error>
+
+        <mat-hint>Powered by Stripe</mat-hint>
+     
+      </mat-form-field>
+
+      <mat-form-field>
+
+        <mat-label>SEPA direct</mat-label>
+
+        <wm-stripe-iban matStripe [disabled]="disabled.checked" #iban></wm-stripe-iban>
+     
+        <mat-error *ngIf="iban.error">{{ iban.error.message }}</mat-error>
+
+        <mat-hint>Powered by Stripe</mat-hint>
+     
+      </mat-form-field>
+
+    </wm-stripe-elements>
+
+    <button mat-flat-button type="submit" color="primary" [disabled]="!card.complete">
+      Pay Now
+    </button>
+
+    <mat-checkbox #disabled>Disabled</mat-checkbox>
+
+    <mat-select #locale>
+      <mat-option value="">Auto</mat-option>
+      <mat-option value="en">English</mat-option>
+      <mat-option value="it">Italiano</mat-option>
+      <mat-option value="ru">Русский</mat-option>
+    </mat-select>
+
+  </form!-->
+
+</section>
+

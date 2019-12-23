@@ -17,21 +17,6 @@ export function getStripeJS(): StripeJS {
   return (!!window ? (window as any).Stripe : undefined);
 }
 
-/** Instantiates a Stripe istance accoding to the provided options */
-export function stripeFactory(config: StripeConfig): Stripe { 
-
-  const StripeJS = getStripeJS();
-  if(!StripeJS) {
-    throw new Error('StripeJS loading failed');
-  }
-
-  if(!config || typeof config.publicKey !== 'string') {
-    throw new Error('A valid publicKey must be provided');
-  }
-
-  return StripeJS( config.publicKey, config.options );
-}
-
 /** Stripe.js v3 script loader */
 export function loadStripeJS(): Promise<StripeJS> {
 
@@ -51,4 +36,19 @@ export function loadStripeJS(): Promise<StripeJS> {
    
     document.body.appendChild(script);
   });
+}
+
+/** Instantiates a Stripe istance accoding to the provided options */
+export function stripeFactory(config: StripeConfig): Stripe { 
+
+  const StripeJS = getStripeJS();
+  if(!StripeJS) {
+    throw new Error('StripeJS loading failed');
+  }
+
+  if(!config || typeof config.publicKey !== 'string') {
+    throw new Error('A valid publicKey must be provided');
+  }
+
+  return StripeJS( config.publicKey, config.options );
 }

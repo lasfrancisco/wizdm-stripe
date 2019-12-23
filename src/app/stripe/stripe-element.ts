@@ -1,4 +1,5 @@
-import { OnInit, OnChanges, SimpleChanges, OnDestroy, ElementRef, Output, EventEmitter } from '@angular/core';
+import { OnInit, OnChanges, SimpleChanges, OnDestroy, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Element, ElementType, ElementOptions, ChangeEventObject } from './stripe-definitions/element';
 import { StripeError } from './stripe-definitions/error';
 import { StripeElements } from './stripe-elements';
@@ -35,6 +36,10 @@ export abstract class StripeElement<T extends StripeElementType> implements OnIn
   /** True whenever the element is disabled */
   public disabled: boolean;
 
+  /** True whenever the element is required */
+  public required: boolean;
+
+  /** The Elements's locale */
   public locale: string;
 
   /** True whenever the element is empty */
@@ -119,6 +124,9 @@ export abstract class StripeElement<T extends StripeElementType> implements OnIn
 
   /** Clears teh element */
   public clear() { this.element && this.element.clear(); }
+
+  /** Marks the eleemnt as required */
+  @Input('required') set requiredSetter(value: boolean) { this.required = coerceBooleanProperty(value); }
 
   /** Emits when fully loaded */
   @Output('ready') readyChange = new EventEmitter();

@@ -9,31 +9,25 @@ import { Observable, merge } from 'rxjs';
  */
 @Directive({
   selector: '[matStripe]',
-  host: { 'class': 'wm-stripe-material' },
+  exportAs: 'StripeMaterial',
   providers: [
     { provide: MatFormFieldControl, useExisting: forwardRef(() => StripeMaterial) }
   ]
 })
 export class StripeMaterial implements MatFormFieldControl<any> {
 
-  constructor(readonly element: StripeElement<any>) { 
+  constructor(readonly element: StripeElement<any>) {}
 
-    this.stateChanges = merge(
-      element.readyChange,
-      element.focusChange,
-      element.blurChange,
-      element.valueChange,
-    );
-  }
+  /** Stream that emits whenever the state of the control changes such that the parent `MatFormField` needs to run change detection. */
+  readonly stateChanges = merge<void>(
+    this.element.readyChange,
+    this.element.focusChange,
+    this.element.blurChange,
+    this.element.valueChange,
+  );
 
   /** The value of the control. */
   get value(): any | null { return this.element.value || null; };
-
-  /**
-   * Stream that emits whenever the state of the control changes such that the parent `MatFormField`
-   * needs to run change detection.
-   */
-  readonly stateChanges: Observable<void>;
 
   /** The element ID for this control. */
   readonly id: string;
@@ -48,16 +42,16 @@ export class StripeMaterial implements MatFormFieldControl<any> {
   get focused(): boolean { return this.element.focused; }
 
   /** Whether the control is empty. */
-  get empty(): boolean { return !this.element.empty; }
+  get empty(): boolean { return this.element.empty; }
 
   /** Whether the control is disabled. */
   get disabled(): boolean { return this.element.disabled; }
 
+  /** Whether the control is required. */
+  get required(): boolean { return this.element.required; }
+
   /** Whether the `MatFormField` label should try to float. */
   get shouldLabelFloat(): boolean { return true; };
-
-   /** Whether the control is required. */
-  readonly required: boolean;
 
   /** Whether the control is in an error state. */
   get errorState(): boolean {

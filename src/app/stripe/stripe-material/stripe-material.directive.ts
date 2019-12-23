@@ -1,4 +1,4 @@
-import { Directive, forwardRef } from '@angular/core';
+import { Directive, forwardRef, Optional, Self } from '@angular/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { NgControl } from '@angular/forms';
 import { StripeElement } from '../stripe-element';
@@ -16,7 +16,8 @@ import { Observable, merge } from 'rxjs';
 })
 export class StripeMaterial implements MatFormFieldControl<any> {
 
-  constructor(readonly element: StripeElement<any>) {}
+  /** Gets the NgControl for this control or null. */
+  constructor(@Optional() @Self() readonly ngControl: NgControl, private element: StripeElement<any>) {}
 
   /** Stream that emits whenever the state of the control changes such that the parent `MatFormField` needs to run change detection. */
   readonly stateChanges = merge<void>(
@@ -34,9 +35,6 @@ export class StripeMaterial implements MatFormFieldControl<any> {
 
   /** The placeholder for this control. */
   readonly placeholder: string;
-
-  /** Gets the NgControl for this control. */
-  readonly ngControl: NgControl | null;
 
   /** Whether the control is focused. */
   get focused(): boolean { return this.element.focused; }

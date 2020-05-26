@@ -34,7 +34,7 @@ export function loadStripeJS(): Promise<StripeJS> {
     script.onerror = () => reject( new Error("Unable to load StripeJS") ); 
     script.onload = () => resolve( getStripeJS() );
    
-    document.body.appendChild(script);
+    document.head.appendChild(script);
   });
 }
 
